@@ -11,6 +11,22 @@
 <meta property="og:locale" content="fr_FR">
 <meta name="twitter:card" content="summary">
 <meta name="description" content="L’erreur IA de PwC a coûté des millions. Votre PME ne la fera pas : formation + 10 templates pour adopter l’IA avec un cadre de validation humaine, en 3 semaines.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Formation Adoption IA sans risque pour PME",
+  "description": "La formation qui encadre l'IA en entreprise : cas PwC décortiqué, 4 garde-fous de validation humaine, registre des usages, gestion des données sensibles. Cadre déployable en 3 semaines.",
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "EUR",
+    "lowPrice": "37",
+    "highPrice": "97",
+    "offerCount": "3",
+    "availability": "https://schema.org/InStock"
+  }
+}
+</script>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:'Segoe UI', system-ui, sans-serif; background:#070b14; color:#e8ecf5; overflow-x:hidden; }
@@ -105,6 +121,12 @@
   .footer { text-align:center; color:#5b6b85; padding:2.5rem 1.5rem 6rem; font-size:.85rem; line-height:1.8; }
   .footer a { color:#7dd3fc; text-decoration:none; }
   .footer a:hover { text-decoration:underline; }
+  /* ---------- Révélation au scroll ---------- */
+  .reveal { opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity:1; transform:none; transition:none; }
+  }
 </style>
 </head>
 <body>
@@ -164,7 +186,7 @@
   <section id="cadre">
     <h2 class="section-title">Le cadre d’adoption de l’IA en 3 semaines</h2>
     <p class="section-sub">Une promesse mesurable : après 3 semaines, chaque usage d’IA dans votre PME est recensé, validé, traçable — et vos données sensibles sont protégées.</p>
-    <div class="modules">
+    <div class="modules reveal">
       <div class="mod"><div class="num">MODULE 1</div><h4>Le cas PwC décortiqué</h4><p>Les 5 causes racines de l’incident, et pourquoi chaque PME est concernée dès le premier usage d’IA.</p></div>
       <div class="mod"><div class="num">MODULE 2</div><h4>Les 4 garde-fous de validation humaine</h4><p>Le cœur du système : qui valide quoi, quand, et comment tracer chaque décision.</p></div>
       <div class="mod"><div class="num">MODULE 3</div><h4>Le registre des usages IA</h4><p>Cartographier tout ce que votre équipe confie à l’IA : outil, données, risque, responsable.</p></div>
@@ -173,7 +195,7 @@
       <div class="mod"><div class="num">MODULE 6</div><h4>La formation des équipes</h4><p>Un plan concret pour que chaque collaborateur sache utiliser l’IA sans créer de risque.</p></div>
       <div class="mod"><div class="num">MODULE 7</div><h4>L’audit continu</h4><p>Les revues mensuelles, les indicateurs et la fiche d’incident qui protègent sur la durée.</p></div>
     </div>
-    <div class="timeline">
+    <div class="timeline reveal">
       <div class="week"><b>Semaine 1</b><span>Diagnostic : recenser les usages IA existants, identifier les risques immédiats.</span></div>
       <div class="week"><b>Semaine 2</b><span>Cadre : garde-fous, processus d’approbation, politique de données.</span></div>
       <div class="week"><b>Semaine 3</b><span>Déploiement : formation des équipes, premier audit, premiers résultats.</span></div>
@@ -184,7 +206,7 @@
   <section id="offres">
     <h2 class="section-title">Choisissez votre formule</h2>
     <p class="section-sub">Paiement simple (virement ou message privé), livraison par email sous 24 h, garantie satisfait ou remboursé 14 jours.</p>
-    <div class="offers">
+    <div class="offers reveal">
       <div class="offer">
         <div class="tag">Pour démarrer</div>
         <h3>📘 Formation seule</h3>
@@ -212,7 +234,7 @@
   <section id="commander">
     <h2 class="section-title">Commander</h2>
     <p class="section-sub">Votre demande part directement dans ma boîte mail — vous recevez une confirmation personnelle sous 24 h.</p>
-    <div class="order">
+    <div class="order reveal">
       <h3>🚀 Je sécurise mon adoption IA</h3>
       <p>Choisissez votre formule, laissez vos coordonnées : je vous contacte pour la livraison et le paiement.</p>
       <label for="f-offre">Formule choisie</label>
@@ -377,6 +399,19 @@ function commander(){
 }
 </script>
 
+<script>
+/* Révélation au scroll — progressif, non intrusif */
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) { for (var i=0;i<els.length;i++) els[i].classList.add('visible'); return; }
+  var io = new IntersectionObserver(function(entries){
+    for (var j=0;j<entries.length;j++){
+      if (entries[j].isIntersecting || entries[j].boundingClientRect.top < window.innerHeight) { entries[j].target.classList.add('visible'); io.unobserve(entries[j].target); }
+    }
+  }, { threshold:.12, rootMargin:'0px 0px -8% 0px' });
+  for (var k=0;k<els.length;k++) io.observe(els[k]);
+})();
+</script>
 <!-- Chatbot FAQ + capture de leads -->
 <script src="chatbot-config.js"></script>
 <script src="chatbot.js"></script>
