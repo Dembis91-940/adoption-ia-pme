@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test de risque IA pour PME — Adoption IA sans risque</title>
+<meta name="description" content="En 2 minutes, évaluez le risque de vos usages d'IA : données sensibles, validation humaine, traçabilité. Score sur 100 + 3 recommandations immédiates.">
+<meta property="og:title" content="Test de risque IA pour PME — gratuit">
+<meta property="og:description" content="2 minutes, 8 questions : votre score de risque IA sur 100 + recommandations immédiates.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI', system-ui, sans-serif; background:#070b14; color:#e8ecf5; overflow-x:hidden; }
+  .wrap { max-width:860px; margin:0 auto; padding:0 24px; position:relative; z-index:2; }
+
+  .nav { display:flex; justify-content:space-between; align-items:center; padding:1.2rem 2.5rem; background:linear-gradient(rgba(7,11,20,.85), transparent); }
+  .logo { font-weight:800; font-size:1.15rem; letter-spacing:.02em; color:#fff; text-decoration:none; }
+  .logo span { color:#38bdf8; }
+  .nav a.back { color:#aab8d0; text-decoration:none; font-size:.9rem; }
+  .nav a.back:hover { color:#7dd3fc; }
+
+  header { padding:4rem 0 2rem; text-align:center; }
+  .badge { display:inline-block; background:rgba(56,189,248,.12); border:1px solid rgba(56,189,248,.35); color:#7dd3fc;
+           border-radius:999px; padding:.4rem 1.1rem; font-size:.8rem; font-weight:600; letter-spacing:.04em; margin-bottom:1.2rem; }
+  h1 { font-size:clamp(1.8rem, 4.5vw, 2.8rem); font-weight:800; letter-spacing:-0.02em; line-height:1.15;
+       background:linear-gradient(120deg,#5eead4,#38bdf8,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  header p { color:#9fb0c9; margin-top:1rem; font-size:1.05rem; max-width:640px; margin-left:auto; margin-right:auto; line-height:1.6; }
+
+  .quiz { max-width:680px; margin:2rem auto 0; }
+  .q { background:rgba(13,18,32,.75); border:1px solid rgba(255,255,255,.09); border-radius:18px; padding:1.6rem 1.7rem; margin-bottom:1rem; }
+  .q .num { font-size:.75rem; font-weight:700; color:#22d3ee; letter-spacing:.12em; text-transform:uppercase; }
+  .q h3 { font-size:1.05rem; margin:.5rem 0 .9rem; color:#fff; line-height:1.45; }
+  .q .opts { display:flex; gap:.6rem; flex-wrap:wrap; }
+  .opt { flex:1; min-width:150px; padding:.75rem 1rem; border-radius:12px; border:1px solid rgba(255,255,255,.14);
+         background:rgba(7,11,20,.6); color:#aab8d0; font-size:.9rem; cursor:pointer; text-align:left; transition:border-color .2s, background .2s, color .2s; font-family:inherit; }
+  .opt:hover { border-color:rgba(56,189,248,.5); }
+  .opt.sel { background:rgba(56,189,248,.16); border-color:#38bdf8; color:#dbeafe; font-weight:600; }
+  .opt .risk { display:block; font-size:.72rem; color:#7c8aa5; margin-top:.2rem; }
+
+  .actions { display:flex; gap:.8rem; justify-content:center; margin:2.2rem 0 3rem; flex-wrap:wrap; }
+  .btn { padding:.9rem 2rem; border-radius:999px; font-weight:700; text-decoration:none; border:none; cursor:pointer; font-size:1rem;
+         background:linear-gradient(120deg,#0369a1,#075985); color:#fff; box-shadow:0 0 30px rgba(3,105,161,.45); transition:transform .2s, box-shadow .2s; font-family:inherit; }
+  .btn:hover { transform:translateY(-3px); box-shadow:0 0 45px rgba(3,105,161,.7); }
+  .btn.ghost { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.18); box-shadow:none; color:#dbe4f0; }
+  .btn:disabled { opacity:.5; cursor:wait; }
+
+  #result { display:none; }
+  .res-card { background:rgba(13,18,32,.85); border:1px solid rgba(255,255,255,.1); border-radius:22px; padding:2.2rem; margin:2rem 0 3rem;
+              backdrop-filter:blur(12px); text-align:center; }
+  .res-score { font-size:3.4rem; font-weight:800; background:linear-gradient(120deg,#5eead4,#38bdf8,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent; line-height:1; }
+  .res-level { display:inline-block; margin-top:.8rem; padding:.4rem 1.2rem; border-radius:999px; font-weight:700; font-size:.9rem; }
+  .level-faible { background:rgba(94,234,212,.14); border:1px solid rgba(94,234,212,.4); color:#5eead4; }
+  .level-moyen { background:rgba(250,204,21,.14); border:1px solid rgba(250,204,21,.45); color:#fde047; }
+  .level-eleve { background:rgba(248,113,113,.14); border:1px solid rgba(248,113,113,.45); color:#fca5a5; }
+  .res-card p { color:#aab8d0; line-height:1.7; margin-top:1rem; font-size:.98rem; }
+  .res-reco { text-align:left; margin-top:1.6rem; }
+  .res-reco h4 { color:#7dd3fc; font-size:.85rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.9rem; }
+  .reco { display:flex; gap:.8rem; padding:.85rem 0; border-top:1px solid rgba(255,255,255,.08); color:#c9d6ea; font-size:.95rem; line-height:1.5; }
+  .reco b { color:#fff; flex-shrink:0; }
+  .res-cta { margin-top:1.8rem; }
+  .res-note { font-size:.82rem; color:#7c8aa5; margin-top:1rem; }
+
+  footer { border-top:1px solid rgba(255,255,255,.07); padding:2rem 1.5rem; text-align:center; color:#7c8aa5; font-size:.82rem; line-height:1.8; position:relative; z-index:2; }
+  footer a { color:#7dd3fc; text-decoration:none; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo" href="index.html">Adoption IA<span> sans risque</span></a>
+  <a class="back" href="index.html">← Retour à l'accueil</a>
+</nav>
+
+<div class="wrap">
+  <header>
+    <span class="badge">🛡️ Gratuit · 2 minutes · sans email</span>
+    <h1>Quel est le niveau de risque de vos usages d'IA ?</h1>
+    <p>8 questions sur ce que votre équipe confie réellement à l'IA. Obtenez votre score sur 100 et les 3 actions prioritaires — exactement le diagnostic de départ de la formation.</p>
+  </header>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-q="0">
+      <div class="num">Question 1 / 8</div>
+      <h3>Vos collaborateurs utilisent-ils des outils d'IA grand public (ChatGPT, Claude, Copilot…) pour des tâches professionnelles ?</h3>
+      <div class="opts">
+        <button class="opt" data-v="0">Non, ou très rarement<span class="risk">aucun risque mesuré</span></button>
+        <button class="opt" data-v="2">Oui, quelques personnes<span class="risk">usages non maîtrisés</span></button>
+        <button class="opt" data-v="4">Oui, largement<span class="risk">risque structurel</span></button>
+      </div>
+    </div>
+
+    <div class="q" data-q="1">
+      <div class="num">Question 2 / 8</div>
+      <h3>Des données sensibles (clients, devis, données personnelles, santé, finances) sont-elles saisies dans ces outils ?</h3>
+      <div class="opts">
+        <button class="opt" data-v="0">Jamais<span class="risk">aucun risque mesuré</span></button>
+        <button class="opt" data-v="3">Parfois, sans le savoir<span class="risk">exposition non détectée</span></button>
+        <button class="opt" data-v="5">Régulièrement<span class="risk">risque majeur</span></button>
+      </div>
+    </div>
+
+    <div class="q" data-q="2">
+      <div class="num">Question 3 / 8</div>
+      <h3>Existe-t-il une validation humaine systématique avant qu'une production IA (email, devis, contenu publié) ne soit diffusée ?</h3>
+      <div class="opts">
+        <button class="opt" data-v="0">Oui, toujours<span class="risk">garde-fou en place</span></button>
+        <button class="opt" data-v="2">Parfois<span class="risk">contrôle inégal</span></button>
+        <button class="opt" data-v="4">Non<span class="risk">aucune validation</span></button>
+      </div>
+    </div>
+
+    <div class="q" data-q="3">
+      <div class="num">Question 4 / 8</div>
+      <h3>Avez-vous un registre des usages d'IA : qui utilise quoi, avec quelles données ?</h3>
+      <div class="opts">
+        <button class="opt" data-v="0">Oui, à jour<span class="risk">traçabilité assurée</span></button>
+        <button class="opt" data-v="2">Partiel<span class="risk">trous dans la cartographie</span></button>
+        <button class="opt" data-v="4">Non<span class="risk">aucune visibilité</span></button>
+      </div>
+    </div>
+
+    <div class="q" data-q="4">
+      <div class="num">Question 5 / 8</div>
+      <h3>Un nouvel usage d'IA doit-il passer par une approbation (responsable, seuils de risque) avant d'être déployé ?</h3>
+      <div class="opts">
+        <button class="opt" data-v="0">Oui, circuit clair<span class="risk">processus en place</span></button>
+        <button class="opt" data-v="2">Non formalisé<span class="risk">décisions au cas par cas</span></button>
+        <button class="opt" data-v="4">Non, chacun fait comme il veut<span class="risk">aucun contrôle</span></button>
+      </div>
+    </div>
+
+    <div class="q" data-q="5">
+      <div class="num">Question 6 / 8</div>
+      <h3>Une charte ou politique d'usage de l'IA a-t-elle été communiquée à vos équipes ?</h3>
+      <div class="opts">
+        <button class="opt" data-v="0">Oui<span class="risk">cadre connu</span></button>
+        <button class="opt" data-v="2">En projet<span class="risk">cadre en construction</span></button>
+        <button class="opt" data-v="3">Non<span class="risk">aucun cadre</span></button>
+      </div>
+    </div>
+
+    <div class="q" data-q="6">
+      <div class="num">Question 7 / 8</div>
+      <h3>Vos collaborateurs ont-ils été formés à ce qu'on peut (et ne peut pas) confier à l'IA ?</h3>
+      <div class="opts">
+        <button class="opt" data-v="0">Oui, tous<span class="risk">équipe outillée</span></button>
+        <button class="opt" data-v="2">Partiellement<span class="risk">formation incomplète</span></button>
+        <button class="opt" data-v="3">Non<span class="risk">équipe livrée à elle-même</span></button>
+      </div>
+    </div>
+
+    <div class="q" data-q="7">
+      <div class="num">Question 8 / 8</div>
+      <h3>Un incident IA (erreur diffusée, donnée exposée) serait-il détecté et documenté ?</h3>
+      <div class="opts">
+        <button class="opt" data-v="0">Oui, avec fiche d'incident<span class="risk">boucle de correction</span></button>
+        <button class="opt" data-v="2">Probablement, sans processus<span class="risk">correction improvisée</span></button>
+        <button class="opt" data-v="4">Non<span class="risk">aucune détection</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn" id="btn-score" disabled>Voir mon score de risque</button>
+    <button class="btn ghost" id="btn-reset">Recommencer</button>
+  </div>
+
+  <div id="result">
+    <div class="res-card">
+      <div class="res-score" id="res-score">—</div>
+      <div id="res-level" class="res-level">—</div>
+      <p id="res-text"></p>
+      <div class="res-reco">
+        <h4>Vos 3 actions prioritaires</h4>
+        <div id="res-recos"></div>
+      </div>
+      <div class="res-cta">
+        <a class="btn" href="index.html#offres">Sécuriser mon adoption IA →</a>
+      </div>
+      <p class="res-note">Ce test est un diagnostic d'alerte, pas un audit. La formation déploie le cadre complet (registre, garde-fous, processus) en 3 semaines.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Adoption IA sans risque pour PME · Test gratuit, sans collecte de données.<br>
+  Une question ? <a href="mailto:elmouskito.pro@gmail.com">elmouskito.pro@gmail.com</a> — <a href="index.html">Retour à l'accueil</a>
+</footer>
+
+<script>
+(function(){
+  var answers = {}; // qIndex -> points
+  var questions = document.querySelectorAll('.q');
+
+  questions.forEach(function(q){
+    var opts = q.querySelectorAll('.opt');
+    opts.forEach(function(b){
+      b.addEventListener('click', function(){
+        var qIdx = parseInt(q.dataset.q, 10);
+        answers[qIdx] = parseInt(b.dataset.v, 10);
+        opts.forEach(function(o){ o.classList.remove('sel'); });
+        b.classList.add('sel');
+        document.getElementById('btn-score').disabled = Object.keys(answers).length < 8;
+      });
+    });
+  });
+
+  function levelInfo(score){
+    if (score <= 25) return { level:'Risque faible', cls:'level-faible',
+      text:'Votre organisation a déjà des réflexes solides. Il reste des angles morts à fiabiliser pour que l\'IA devienne un avantage mesurable — et non une simple tolérance.' };
+    if (score <= 50) return { level:'Risque modéré', cls:'level-moyen',
+      text:'Des usages d\'IA tournent sans cadre complet : c\'est exactement la zone où un incident type PwC devient possible. Un cadre de validation humaine est votre priorité.' };
+    return { level:'Risque élevé', cls:'level-eleve',
+      text:'Votre organisation est exposée : données sensibles potentiellement non tracées, aucune validation systématique. Le cas PwC a montré ce que ça coûte — en euros et en réputation.' };
+  }
+
+  function recoList(score, answers){
+    var recos = [];
+    if (score >= 60 || (answers[1] !== undefined && answers[1] >= 3))
+      recos.push(['1. Stopper les fuites de données sensibles', 'Interdisez la saisie de données personnelles ou sensibles dans les outils grand public, en attendant une solution encadrée ou anonymisée.']);
+    if (answers[3] !== undefined && answers[3] >= 2)
+      recos.push(['2. Créer le registre des usages IA', 'Listez, dès cette semaine : outil, équipe, données saisies, responsable. C\'est la base de toute traçabilité et de toute défense.']);
+    if (answers[2] !== undefined && answers[2] >= 2)
+      recos.push(['3. Imposer la double validation', 'Aucune production IA ne sort sans validation humaine : un relecteur nommé, un seuil de risque, une trace de la décision.']);
+    if (answers[5] !== undefined && answers[5] >= 2)
+      recos.push(['3. Diffuser une charte IA', 'Une page, dix règles, signée par la direction : ce qu\'on peut confier à l\'IA, ce qu\'on ne doit jamais lui confier.']);
+    if (answers[6] !== undefined && answers[6] >= 2)
+      recos.push(['3. Former l\'équipe en 45 minutes', 'Une session pratique : bons réflexes, exemples réels, cas limites. C\'est le levier le plus rapide pour réduire le risque.']);
+    if (recos.length === 0) {
+      recos = [
+        ['1. Formaliser par écrit', 'Même avec de bons réflexes, sans processus écrit et auditable, vous restez exposé en cas de contrôle.'],
+        ['2. Étendre aux sous-traitants', 'Vérifiez que vos prestataires appliquent le même cadre quand ils traitent vos données avec de l\'IA.'],
+        ['3. Auditer chaque trimestre', 'Un rituel de 30 minutes : nouveaux outils apparus, usages dérivés, incidents évités. La vigilance se maintient.'],
+      ];
+    }
+    if (recos.length > 3) recos = recos.slice(0, 3);
+    return recos;
+  }
+
+  document.getElementById('btn-score').addEventListener('click', function(){
+    var total = 0;
+    for (var k in answers) total += answers[k];
+    var max = 30; // somme des valeurs max des 8 questions
+    var score = Math.round(total / max * 100);
+    var info = levelInfo(score);
+
+    document.getElementById('res-score').textContent = score + ' / 100';
+    var lvl = document.getElementById('res-level');
+    lvl.textContent = info.level;
+    lvl.className = 'res-level ' + info.cls;
+    document.getElementById('res-text').textContent = info.text;
+
+    var wrap = document.getElementById('res-recos');
+    wrap.innerHTML = '';
+    recoList(score, answers).forEach(function(r){
+      var d = document.createElement('div');
+      d.className = 'reco';
+      d.innerHTML = '<b>' + r[0] + '</b><span>' + r[1] + '</span>';
+      wrap.appendChild(d);
+    });
+
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('result').scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+
+  document.getElementById('btn-reset').addEventListener('click', function(){
+    answers = {};
+    questions.forEach(function(q){
+      q.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('sel'); });
+    });
+    document.getElementById('btn-score').disabled = true;
+    document.getElementById('result').style.display = 'none';
+    window.scrollTo({ top:0, behavior:'smooth' });
+  });
+})();
+</script>
+</body>
+</html>
